@@ -32,14 +32,15 @@ f = 2 #frequency of the signal
 fs = 100 #sample rate
 
 t = np.arange(-1,1+1/fs,1/fs)
-A = np.sin(t)
+
+A = np.sin(2*np.pi*f*t)
 
 plt.plot(t,A)
 
 plt.title('Sine Wave')
-plt.xlabel('Time')
+plt.xlabel('Time(s)', fontsize=16)
 
-plt.ylabel('Amplitude = sin(time)')
+plt.ylabel('Amplitude', fontsize=16)
 
 plt.grid(True,which='both')
 
@@ -47,7 +48,8 @@ plt.axhline(y=0, color='k')
 
 plt.show()
 
-plt.sho()
+plt.show()
+
 
 
 
