@@ -55,6 +55,22 @@ plt.plot(t[A.size//2+1::],xslice,'o-r')
 plt.grid(True,which='both')
 plt.show()
 
+from wave import open as open_wave
+fp = open_wave("C:/Users/Michael Hernandez/Downloads/196959__margo-heston__i-see-nine-apples-m.wav", 'r')
+strframes = fp.readframes(fp.getnframes())
+fp.close()
+ys = np.fromstring(strframes, dtype=np.int16)
+ts = np.arange(len(ys)) / fp.getframerate()
+
+fig,ax =plt.subplots()
+ax.plot(ts,ys,'-r')
+ax.set_xlabel('time(s)', fontsize=16)
+ax.set_ylabel('amplitute', fontsize=16)
+plt.show()
+
+
+
+
 
 
 
