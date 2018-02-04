@@ -50,6 +50,11 @@ plt.show()
 
 plt.show()
 
+xslice = A[A.size//2+1::]
+plt.plot(t[A.size//2+1::],xslice,'o-r')
+plt.grid(True,which='both')
+plt.show()
+
 
 
 
