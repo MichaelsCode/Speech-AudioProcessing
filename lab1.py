@@ -56,7 +56,7 @@ plt.grid(True,which='both')
 plt.show()
 
 from wave import open as open_wave
-fp = open_wave("C:/Users/Michael Hernandez/Downloads/196959__margo-heston__i-see-nine-apples-m.wav", 'r')
+fp = open_wave("/home/michael/Documents/Speeach&AudioProcessing/196959__margo-heston__i-see-nine-apples-m.wav", 'r')
 strframes = fp.readframes(fp.getnframes())
 fp.close()
 ys = np.fromstring(strframes, dtype=np.int16)
