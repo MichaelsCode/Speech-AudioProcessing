@@ -1,14 +1,18 @@
 import matplotlib.pylab as plt
 import numpy as np
+from scipy.fftpack import fft
 
-f = 1
-fs = 10000
 
-t = np.arange(-1,1+1/fs,1/fs)
+Fs = 10000
+Ts = 1.0/Fs
 
-A = np.sin(2*np.pi*f*t)
+t = np.arange(0,1,Ts)
 
-plt.plot(t,A)
+ff = 1
+
+y = np.sin(2*np.pi*ff*t)
+
+plt.plot(t,y)
 
 plt.title('Sine Wave')
 plt.xlabel('Time(s)', fontsize=16)
@@ -20,3 +24,5 @@ plt.grid(True,which='both')
 plt.axhline(y=0, color='k')
 
 plt.show()
+
+
