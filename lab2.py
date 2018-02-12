@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import librosa
+import scipy as sp
 import scipy.signal
 import scipy.io.wavfile
 
@@ -8,29 +9,27 @@ import scipy.io.wavfile
 
 
 fs = 44100 # sampling rate
-f = 770 # frequency of the signal
-dt = 0.5/fs
+f = 770.0# frequency of the signal
+t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
+#t = np.arange(-1,1+1/fs,1/fs) #time calculation (x axis)
+#xslice = t[t.size//0::0.5]
 
-t = np.arange(fs)*dt #time calculation (x axis)
-
-A =np.sin(2 * np.pi * f * t)  # amplitude calculation (y axis)
+A =np.sin(2 * np.pi * f * t).astype(np.float32)  # amplitude calculation (y axis)
 
 plt.grid(axis='both') # draw grid on plot
 plt.plot(t,A) # plotting amplitude A(y axis), time t(y axis)
-
 plt.title('Sine Wave') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-#plt._show() #show plot on IDE
+plt._show() #show plot on IDE
 
 #second signal
 
 fs2 = 44100
 f2= 1209
-dt2 = 1/fs
 
-t2 = np.arange(fs2) * dt2
+t2 = np.linspace(0, 1, 0.002 * fs2, endpoint=False)
 A2 = np.sin(2*np.pi*f2*t2)
 
 plt.grid(axis='both') # draw grid on plot
@@ -40,7 +39,7 @@ plt.title('Sine Wave 2') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-#plt._show() #show plot on IDE
+plt._show() #show plot on IDE
 
 #I tried using append but without success
 result = A + A2 # mix sine waves
