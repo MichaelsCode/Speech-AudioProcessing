@@ -1,8 +1,10 @@
+import signal
+
 import matplotlib.pyplot as plt
 import numpy as np
 import librosa
-import scipy as sp
-import scipy.signal
+import scipy
+from scipy import signal
 import scipy.io.wavfile
 
 #s ine wave formula A sin(wt)
@@ -20,12 +22,12 @@ plt.title('Sine Wave') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-plt._show() #show plot on IDE
+#plt._show() #show plot on IDE
 
 #second signal
 
 fs2 = 44100
-f2= 1209
+f2= 1209.0
 
 t2 = np.linspace(0, 1, 0.002 * fs2, endpoint=False)
 A2 = np.sin(2*np.pi*f2*t2)
@@ -37,7 +39,7 @@ plt.title('Sine Wave 2') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-plt._show() #show plot on IDE
+#plt._show() #show plot on IDE
 
 #Signals mixed
 result = A + A2 # mix sine waves
@@ -47,7 +49,7 @@ plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
 plt.plot((t+t2),result) # plot the sine wave
-plt.show()
+#plt.show()
 
 
 
@@ -78,4 +80,28 @@ def dtmf_encoder(phonenumber):
     sounds = np.append(np.sin(2 * np.pi * fr * t).astype(np.float32) + np.sin(2 * np.pi * fc * t).astype(np.float32))
     return librosa.output.write_wav('C:/Users/Michael Hernandez/Desktop/sounds.wav', sounds, Fs)
 
+#Tone of digit three
 
+fs = 44100
+row_f = 697.0
+
+row_t = np.linspace(0, 1, 0.002 * fs, endpoint=False)
+row_A =np.sin(2 * np.pi * row_f * row_t).astype(np.float32)
+
+col_f = 1477.0
+
+col_t = np.linspace(0, 1, 0.002 * fs, endpoint=False)
+col_A =np.sin(2 * np.pi * col_f * row_t).astype(np.float32)
+
+b, a = signal.butter(6, 1000, 'low', analog=True)
+row_A, col_A = signal.freqs(b,a)
+
+plt.plot(row_A, 20 * np.log10(abs(col_A )))
+plt.xscale('log')
+plt.title('Butterworth filter frequency response')
+plt.xlabel('Frequency [radians / second]')
+plt.ylabel('Amplitude [dB]')
+plt.margins(0, 0.1)
+plt.grid(which='both', axis='both')
+plt.axvline(1000, color='green') # cutoff frequency
+plt.show()
