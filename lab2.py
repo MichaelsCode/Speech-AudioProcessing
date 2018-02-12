@@ -22,7 +22,7 @@ plt.title('Sine Wave') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-#plt._show() #show plot on IDE
+plt._show() #show plot on IDE
 
 #second signal
 
@@ -39,7 +39,7 @@ plt.title('Sine Wave 2') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-#plt._show() #show plot on IDE
+plt._show() #show plot on IDE
 
 #Signals mixed
 result = A + A2 # mix sine waves
@@ -49,7 +49,7 @@ plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
 plt.plot((t+t2),result) # plot the sine wave
-#plt.show()
+plt.show()
 
 
 
@@ -85,18 +85,20 @@ def dtmf_encoder(phonenumber):
 fs = 44100
 row_f = 697.0
 
-row_t = np.linspace(0, 1, 0.002 * fs, endpoint=False)
+row_t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
 row_A =np.sin(2 * np.pi * row_f * row_t).astype(np.float32)
 
 col_f = 1477.0
 
-col_t = np.linspace(0, 1, 0.002 * fs, endpoint=False)
+col_t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
 col_A =np.sin(2 * np.pi * col_f * row_t).astype(np.float32)
 
-b, a = signal.butter(6, 1000, 'low', analog=True)
-row_A, col_A = signal.freqs(b,a)
 
-plt.plot(row_A, 20 * np.log10(abs(col_A )))
+b, a = signal.butter(6, 1000, 'low', analog=True,output='ba') #here I'm using a filter order 6 and cutoff at 1000
+
+row_A, col_A = signal.freqs(b, a) #here I'm applying the butterworth filter.
+
+plt.plot(row_A, 20 * np.log10(abs(col_A)))
 plt.xscale('log')
 plt.title('Butterworth filter frequency response')
 plt.xlabel('Frequency [radians / second]')
@@ -105,3 +107,4 @@ plt.margins(0, 0.1)
 plt.grid(which='both', axis='both')
 plt.axvline(1000, color='green') # cutoff frequency
 plt.show()
+# I could not complete this task because I could save to wav, I'll review with you in class.
