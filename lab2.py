@@ -10,9 +10,7 @@ import scipy.io.wavfile
 
 fs = 44100 # sampling rate
 f = 770.0# frequency of the signal
-t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
-#t = np.arange(-1,1+1/fs,1/fs) #time calculation (x axis)
-#xslice = t[t.size//0::0.5]
+t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False) #time calculation (x axis)
 
 A =np.sin(2 * np.pi * f * t).astype(np.float32)  # amplitude calculation (y axis)
 
@@ -41,13 +39,17 @@ plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
 plt._show() #show plot on IDE
 
-#I tried using append but without success
+#Signals mixed
 result = A + A2 # mix sine waves
 
+plt.title('Sine Wave Mixed') #plot title
+plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
+
+plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
 plt.plot((t+t2),result) # plot the sine wave
 plt.show()
 
-Fs = 8000
+
 
 #define the keypad and its frequencies
 validkeys = '*#0123456789ABCD'
@@ -62,21 +64,22 @@ def dtmf_encoder(phonenumber):
 
     dur = 0.5
     silencedur = 0.1
-    Fs= 8000
+    Fs= 44100
 
 
-    t = np.linspace(0, dur, int(dur * Fs), endpoint=False)
+    t = np.linspace(0, dur, dur * Fs, endpoint=False)
     silence = np.zeros(int(silencedur * Fs))
 
-    sounds = []
+    sounds = np.zeros()
     for key in phonenumber:
         if key.upper() in validkeys:
             r, c = buttons[key]
-    fr, fc = rowfreqs[r], colfreqs[c]
+            fr, fc = rowfreqs[r], colfreqs[c]
     # print key, fr, fc
-    sounds.append(np.sin(2 * np.pi * fr * t) + np.sin(2 * np.pi * fc * t))
-    sounds.append(silence)
+    sounds = np.append(np.sin(2 * np.pi * fr * t).astype(np.float32) + np.sin(2 * np.pi * fc * t).astype(np.float32))
+    sounds = np.append(silence)
     np.concatenate(sounds[:-1])  # drop last silence period
-    #librosa.output.write_wav('C:/Users/Michael Hernandez/Desktop/sounds.wav', sounds, Fs)
+    librosa.output.write_wav('C:/Users/Michael Hernandez/Desktop/sounds.wav', sounds, Fs)
     return  np.concatenate(sounds[:-1])
 
+dtmf_encoder('12')
