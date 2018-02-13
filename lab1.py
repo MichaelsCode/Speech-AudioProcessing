@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import librosa
+
 
 x = np.sin(np.array([1, 0, -1], dtype=np.float32))
 print(x)
@@ -35,6 +37,7 @@ t = np.arange(-1,1+1/fs,1/fs)
 
 A = np.sin(2*np.pi*f*t)
 
+
 plt.plot(t,A)
 
 plt.title('Sine Wave')
@@ -54,7 +57,7 @@ xslice = A[A.size//2+1::]
 plt.plot(t[A.size//2+1::],xslice,'o-r')
 plt.grid(True,which='both')
 plt.show()
-
+'''
 from wave import open as open_wave
 fp = open_wave("/home/michael/Documents/Speeach&AudioProcessing/196959__margo-heston__i-see-nine-apples-m.wav", 'r')
 strframes = fp.readframes(fp.getnframes())
@@ -67,7 +70,7 @@ ax.plot(ts,ys,'-r')
 ax.set_xlabel('time(s)', fontsize=16)
 ax.set_ylabel('amplitute', fontsize=16)
 plt.show()
-
+'''
 
 
 
