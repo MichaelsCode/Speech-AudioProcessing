@@ -55,7 +55,7 @@ plt.title('Sine Wave Mixed') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-plt.plot(result) # plot the sine wave
+plt.plot(result) # plot the sine wave; could not plot the mixed sine wave at 0.02
 plt.show()
 
 #define the keypad and its frequencies
@@ -67,8 +67,6 @@ buttons = {'1':(0,0), '2':(0,1), '3':(0,2), 'A':(0,3),
 '7':(2,0), '8':(2,1), '9':(2,2), 'C':(2,3),
 '*':(3,0), '0':(3,1), '#':(3,2), 'D':(3,3)} #matrix of buttons
 
-# I could not make this code to work I kept getting the following error: sounds = np.append([np.sin(2 * np.pi * fr * t).astype(np.float32) + np.sin(2 * np.pi * fc * t).astype(np.float32)],axis=0)
-#TypeError: append() missing 1 required positional argument: 'values'
 def dtmf_encoder(phonenumber):
 
     dur = 0.5
@@ -120,4 +118,3 @@ plt.show()
 
 signal_filtered = np.array(row_A,col_A)
 librosa.output.write_wav('/Users/michael/Desktop/digit3filtered.wav', signal_filtered, fs)
-# I could not complete this task because I could save to wav, I'll review with you in class.
