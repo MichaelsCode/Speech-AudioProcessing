@@ -11,13 +11,14 @@ import scipy.io.wavfile
 
 
 fs = 44100 # sampling rate
-f = 770.0# frequency of the signal
-t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False) #time calculation (x axis)
+f = 770 # frequency of the signal
+t = np.linspace(0, 0.5, fs) #time calculation (x axis)
 
 A =np.sin(2 * np.pi * f * t).astype(np.float32)  # amplitude calculation (y axis)
 
 plt.grid(axis='both') # draw grid on plot
 plt.plot(t,A) # plotting amplitude A(y axis), time t(y axis)
+plt.axis([0,0.02,-1,1])
 plt.title('Sine Wave') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
@@ -27,13 +28,14 @@ plt._show() #show plot on IDE
 #second signal
 
 fs2 = 44100
-f2= 1209.0
+f2= 1209
 
-t2 = np.linspace(0, 1, 0.002 * fs2, endpoint=False)
+t2 = np.linspace(0, 1, fs2)
 A2 = np.sin(2*np.pi*f2*t2)
 
 plt.grid(axis='both') # draw grid on plot
 plt.plot(t2,A2) # plotting amplitude A(y axis), time t(y axis)
+plt.axis([0,0.02,-1,1])
 
 plt.title('Sine Wave 2') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
@@ -42,20 +44,19 @@ plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
 plt._show() #show plot on IDE
 
 #Signals mixed
-result = A + A2 # mix sine waves
+times = np.array(t + t2)
+result = np.array(np.sin(2 * np.pi * f * t).astype(np.float32) + np.sin(2 * np.pi * f2*t2).astype(np.float32))
+librosa.output.write_wav('/Users/michael/Desktop/result.wav', result, fs)
 
+#result = A + A2 # mix sine waves
 
 
 plt.title('Sine Wave Mixed') #plot title
 plt.xlabel('Time(s)', fontsize=16)#plot label for x axis
 
 plt.ylabel('Amplitude', fontsize=16)#plot label for y axis
-plt.plot((t+t2),result) # plot the sine wave
+plt.plot(result) # plot the sine wave
 plt.show()
-'''
-result_sound =  np.array(A + A2)
-librosa.output.write_wav('/home/michael/Documents/mixed_waves.wav',result_sound, fs)
-'''
 
 #define the keypad and its frequencies
 validkeys = '*#0123456789ABCD' #valid keys
@@ -75,14 +76,13 @@ def dtmf_encoder(phonenumber):
 
     t = np.linspace(0, dur, dur * Fs, endpoint=False)
 
-   # sounds = np.zeros(int(phonenumber)) #array of zeros where I intended to append signals
-
     for key in phonenumber:
         if key.upper() in validkeys:
             r, c = buttons[key]
             fr, fc = rowfreqs[r], colfreqs[c]
     sounds = np.array(np.sin(2 * np.pi * fr * t).astype(np.float32) + np.sin(2 * np.pi * fc * t).astype(np.float32))
-    librosa.output.write_wav('/home/michael/Documents/sounds.wav', sounds, Fs)
+    #librosa.output.write_wav('/home/michael/Documents/sounds.wav', sounds, Fs)
+    librosa.output.write_wav('/Users/michael/Desktop/sounds.wav', sounds, Fs)
     return
 
 dtmf_encoder('4') #run the function
@@ -90,21 +90,19 @@ dtmf_encoder('4') #run the function
 #Tone of digit three
 
 fs = 44100
-row_f = 697.0
+row_f = 697
 
-row_t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
+row_t = np.linspace(0, 0.5, 0.5 * fs, endpoint=False)
 row_A =np.sin(2 * np.pi * row_f * row_t).astype(np.float32)
 
-col_f = 1477.0
+col_f = 1477
 
-col_t = np.linspace(0, 0.5, 0.002 * fs, endpoint=False)
+col_t = np.linspace(0, 0.5, 0.5 * fs, endpoint=False)
 col_A =np.sin(2 * np.pi * col_f * row_t).astype(np.float32)
 
-'''
-sinewave = np.array(row_A + col_A)
-librosa.output.write_wav('/home/michael/Documents/test2.wav',sinewave, 44100)
-'''
+digit3 = np.array(np.sin(2 * np.pi * row_f * row_t).astype(np.float32) + np.sin(2 * np.pi * col_f * row_t).astype(np.float32))
 
+librosa.output.write_wav('/Users/michael/Desktop/digit3.wav', digit3, fs)
 
 b, a = signal.butter(6, 1000, 'low', analog=True,output='ba') #here I'm using a filter order 6 and cutoff at 1000
 
@@ -119,4 +117,7 @@ plt.margins(0, 0.1)
 plt.grid(which='both', axis='both')
 plt.axvline(1000, color='green') # cutoff frequency
 plt.show()
+
+signal_filtered = np.array(row_A,col_A)
+librosa.output.write_wav('/Users/michael/Desktop/digit3filtered.wav', signal_filtered, fs)
 # I could not complete this task because I could save to wav, I'll review with you in class.
